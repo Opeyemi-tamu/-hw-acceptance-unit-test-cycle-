@@ -38,4 +38,22 @@ RSpec.describe Movie, type: :model do
       expect(movie.pluck(:director).uniq).to eq([director])
     end
   end
+
+
+  # describe '#others_by_same_director' do
+  #   let!(:director) { 'Bandy' }
+  #   let!(:movie1) { create(:movie, director: director) }
+  #   let!(:movie2) { create(:movie, director: director) }
+  #   let!(:other_movie) { create(:movie, director: 'Other Director') }
+  
+  #   it 'returns all other movies by the same director' do
+  #     expect(movie1.others_by_same_director).to eq([movie2])
+  #     expect(movie2.others_by_same_director).to eq([movie1])
+  #   end
+  
+  #   it 'does not return movies by other directors' do
+  #     expect(movie1.others_by_same_director).not_to include(other_movie)
+  #   end
+  # end
+  
 end

@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
   def show_by_director
     @movie = Movie.where(id: params[:id]).first
     @director = @movie.director
-    if @director.nil?
+    if !@director
       flash[:warning] = 'Director was not added to this movie.'
       redirect_to root_path
     else

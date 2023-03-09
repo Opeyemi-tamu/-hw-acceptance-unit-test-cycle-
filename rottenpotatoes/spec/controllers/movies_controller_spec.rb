@@ -8,14 +8,41 @@ RSpec.describe MoviesController, type: :controller do
     end
     
     # TODO(student): add more movies to use for testing
+    if Movie.where(:title => "Burgundy").empty?
+      Movie.create(:title => "Burgundy", 
+                   :rating => "PG", :release_date => "2002-10-02", :director => "Bandy")
+    end
+
+    if Movie.where(:title => "Burgundy2").empty?
+      Movie.create(:title => "Burgundy2", 
+                   :rating => "PG", :release_date => "2002-12-05", :director => "Bandy")
+    end
+
+    if Movie.where(:title => "Burgundy3").empty?
+      Movie.create(:title => "Burgundy3", 
+                   :rating => "PG", :release_date => "2002-11-03", :director => "Randy")
+    end
   end
   
   describe "when trying to find movies by the same director" do
-    it "returns a valid collection when a valid director is present"
+    it "returns a valid collection when a valid director is present" do
       # TODO(student): implement this test
+      movie = Movie.find(2)
+      get :show_by_director, params: { id: movie.id }
+      expect(movie.director).to eq("Bandy")
+      director = Movie.where(director: "Bandy")
+      expect(director.count).to eq(2)
+    end
     
-    it "redirects to index with a warning when no director is present"
+    it "redirects to index with a warning when no director is present" do
       # TODO(student): implement this test
+      movie = Movie.find(1)
+      get :show_by_director, params: { id: movie.id }
+      expect(response).to redirect_to root_path
+      expect(flash[:warning]).to match(/Director was not added to this movie./)
+
+    end
+
   end
   
   describe "creates" do
@@ -47,7 +74,7 @@ RSpec.describe MoviesController, type: :controller do
                            rating: 'PG-13', release_date: '2023-12-17')
       get :update, params: { id: movie.id, movie: { director: 'Not Nick!' } }
 
-      expect(assigns(:movie).direcor).to eq('Not Nick!')
+      expect(assigns(:movie).director).to eq('Not Nick!')
       movie.destroy
     end
   end

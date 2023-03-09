@@ -23,3 +23,25 @@ Then /I should see all the movies/ do
     step %{I should see "#{movie.title}"}
   end
 end
+
+
+
+
+
+When /I go to the edit page for {string}/ do |title|
+  movie = Movie.find_by(title: title)
+  visit edit_movie_path(movie)
+end
+
+And /I fill in {string} with {string}/ do |field, value|
+  fill_in field, with: value
+end
+
+And /I press {string}/ do |button|
+  click_button button
+end
+
+Then /the director of {string} should be {string}/ do |title, director|
+  movie = Movie.find_by(title: title)
+  expect(movie.director).to eq(director)
+end

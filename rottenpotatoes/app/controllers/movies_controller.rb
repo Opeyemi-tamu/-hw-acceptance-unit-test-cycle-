@@ -1,5 +1,4 @@
 class MoviesController < ApplicationController
-
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -9,8 +8,8 @@ class MoviesController < ApplicationController
   def show_by_director
     @movie = Movie.where(id: params[:id]).first
     @director = @movie.director
-    if @director == nil
-      flash[:warning] = "Director was not added to this movie."
+    if @director.nil?
+      flash[:warning] = 'Director was not added to this movie.'
       redirect_to root_path
     else
       @movies = Movie.where(director: @director)
@@ -33,9 +32,9 @@ class MoviesController < ApplicationController
 
   def edit
     @movie = Movie.find params[:id]
-    if !@movie.director?
-      @movie.director = "Add Director"
-    end
+    return if @movie.director?
+
+    @movie.director = 'Add Director'
   end
 
   def update
@@ -53,6 +52,7 @@ class MoviesController < ApplicationController
   end
 
   private
+
   # Making "internal" methods private is not required, but is a common practice.
   # This helps make clear which methods respond to requests, and which ones do not.
   def movie_params

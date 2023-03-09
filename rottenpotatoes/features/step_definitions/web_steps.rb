@@ -282,9 +282,15 @@ end
 #   visit movie_path(movie)
 # end
 
-Given(/^I am on the details page for "Star Wars"$/) do
-  movie = Movie.find_by(title: 'Star Wars')
-  visit movie_path(movie.id)
+# Given(/^I am on the details page for "Star Wars"$/) do
+#   movie = Movie.find_by(title: 'Star Wars')
+#   visit movie_path(movie.id)
+# end
+
+Given(/^I am on the details page for {string}/) do |title|
+  movie = Movie.find_by!(title: title)
+  # visit movie_path(movie.id)
+  visit path_to(movie_path(movie))
 end
 
 When('I follow {string}') do |link_text|

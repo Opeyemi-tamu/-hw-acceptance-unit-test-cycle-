@@ -18,8 +18,14 @@ module NavigationHelpers
     when /the edit page for "(.*)"$/
       edit_movie_path(Movie.find_by_title(::Regexp.last_match(1))[:id])
 
-    # when /the show page for "(.*)"$/
+    # when /the show page for "(.+)"$/
     #   movie_path(Movie.find_by_title($1)[:id])
+
+    when /the details page for "(.*)"$/
+      # Generate a URL for the show page of a movie by title
+      movie_path(Movie.find_by_title(::Regexp.last_match(1))[:id])
+      # movie = Movie.find_by(title: $1)
+      # movie_path(movie.id)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

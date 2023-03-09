@@ -272,35 +272,38 @@ end
 
 ##### Cucumber 3
 
-# Given("I am on the details page for {string}") do |movie_title|
-#   movie = Movie.find_by(title: movie_title)
-#   # visit movie_path(movie)
-# end
-
-# Given(/^I am on the details page for "(Star Wars|Blade Runner)"$/) do |movie_title|
-#   movie = Movie.find_by(title: movie_title)
-#   visit movie_path(movie)
-# end
-
-# Given(/^I am on the details page for "Star Wars"$/) do
-#   movie = Movie.find_by(title: 'Star Wars')
-#   visit movie_path(movie.id)
-# end
-
-Given(/^I am on the details page for {string}/) do |title|
+Given(/I am on the details page for {string}/) do |title|
   movie = Movie.find_by!(title: title)
   # visit movie_path(movie.id)
   visit path_to(movie_path(movie))
 end
 
-When('I follow {string}') do |link_text|
-  click_link(link_text)
+# When('I follow {string}') do |link_text|
+#   click_link(link_text)
+# end
+
+
+When(/^I follow the "Find Movies With Same Director" link on the details page for "(.+)"$/) do |movie_title|
+  movie = Movie.find_by_title(movie_title)
+  within("#movie_#{movie.id}") do
+    click_link("Find Movies With Same Director")
+  end
 end
 
-Then('I should be on the Similar Movies page for {string}') do |movie_title|
-  movie = Movie.find_by(title: movie_title)
-  expect(page).to have_current_path("/movies/others/#{movie.id}")
+
+
+# Then('I should be on the Similar Movies page for {string}') do |movie_title|
+#   movie = Movie.find_by(title: movie_title)
+#   expect(page).to have_current_path("/movies/others/#{movie.id}")
+# end
+
+
+Then(/^I should be on the Similar Movies page for "(.+)"$/) do |movie_title|
+  movie = Movie.find_by_title(movie_title)
+  expect(current_path).to eq(similar_movies_path(movie))
 end
+
+
 
 And('I should see {string}') do |movie_title|
   expect(page).to have_content(movie_title)
